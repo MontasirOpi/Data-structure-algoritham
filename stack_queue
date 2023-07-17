@@ -1,0 +1,123 @@
+#include <iostream>
+using namespace std;
+// Node class for the linked list
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int data) {
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+// Stack implementation using linked list
+class Stack {
+private:
+    Node* top;
+
+public:
+    Stack() {
+        top = nullptr;
+    }
+
+    void push(int data) {
+        Node* newNode = new Node(data);
+        newNode->next = top;
+        top = newNode;
+    }
+
+    int pop() {
+        if (isEmpty()) {
+            cout << "Stack is empty!" << std::endl;
+            return -1;
+        }
+
+        int poppedData = top->data;
+        Node* temp = top;
+        top = top->next;
+        delete temp;
+
+        return poppedData;
+    }
+
+    bool isEmpty() {
+        return top == nullptr;
+    }
+};
+
+// Queue implementation using linked list
+class Queue {
+private:
+    Node* front;
+    Node* rear;
+
+public:
+    Queue() {
+        front = nullptr;
+        rear = nullptr;
+    }
+
+    void enqueue(int data) {
+        Node* newNode = new Node(data);
+
+        if (isEmpty()) {
+            front = rear = newNode;
+        } else {
+            rear->next = newNode;
+            rear = newNode;
+        }
+    }
+
+    int dequeue() {
+        if (isEmpty()) {
+            std::cout << "Queue is empty!" << std::endl;
+            return -1;
+        }
+
+        int dequeuedData = front->data;
+        Node* temp = front;
+        front = front->next;
+        delete temp;
+
+        if (front == nullptr) {
+            rear = nullptr;
+        }
+
+        return dequeuedData;
+    }
+
+    bool isEmpty() {
+        return front == nullptr;
+    }
+};
+
+int main() {
+    // Testing stack
+    Stack stack;
+    stack.push(50);
+    stack.push(100);
+    stack.push(90);
+    stack.pop();
+
+    while (!stack.isEmpty()) {
+        cout << stack.pop() << " ";
+    }
+    cout <<endl;
+
+    // Testing queue
+    Queue queue;
+    queue.enqueue(50);
+    queue.enqueue(100);
+    queue.enqueue(90);
+    queue.dequeue();
+
+    while (!queue.isEmpty()) {
+        cout << queue.dequeue() << " ";
+    }
+    cout << std::endl;
+
+    return 0;
+}
+
